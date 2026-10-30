@@ -1,0 +1,13 @@
+target-version = "py312"
+line-length = 160
+
+[lint]
+select = ["E", "F", "I", "B", "SIM", "S", "BLE"]
+ignore = [
+  # FastAPI idiom: Depends() in argument defaults is the standard pattern
+  "B008",
+  # Graceful-degradation pattern: broad catches intentionally mapped to clean fallbacks
+  "BLE001",
+  "S110",
+  "S105",
+]

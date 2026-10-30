@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+@config '../../tailwind.config.js';
+
+body { margin: 0; }
+
+/* StudyLens overlay: areas stay scrollable, scrollbars are hidden. */
+.overflow-auto {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.overflow-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* Single-accent theme: one color set in Settings drives every brand-colored
+   element (buttons, active tab, logo dot, panel border, widget badge).
+   The variable is injected on the overlay roots from prefs.color. */
+.sl-accent-bg {
+  background-color: var(--sl-accent, #6366f1);
+}
+.sl-accent-bg:hover {
+  background-color: var(--sl-accent-dark, #4f46e5);
+}
+.sl-accent-text {
+  color: var(--sl-accent, #6366f1);
+}

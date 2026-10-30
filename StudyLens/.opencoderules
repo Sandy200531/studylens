@@ -1,0 +1,39 @@
+# StudyLens Coding Standards (OpenCode Rules)
+
+These rules are binding for all contributions to this repository.
+
+## Architecture
+- Use a modular, feature-oriented structure. Keep domain logic out of UI components and route handlers.
+- Frontend: React + TypeScript + Vite + Tailwind. Manifest V3 only.
+- Backend: FastAPI + SQLAlchemy 2.0 (async) + Pydantic v2.
+- No direct DOM mutation from React components; content scripts live in `content/` and background logic in `background/`.
+
+## TypeScript
+- `strict: true`, `noImplicitAny: true`, `noUncheckedIndexedAccess: true`.
+- ZERO `any` types. Use `unknown` + narrowing, generics, and explicit API contracts.
+- All API responses must have explicit TypeScript interfaces matching backend Pydantic schemas.
+- Use `const` by default, `let` only when reassignment is required.
+
+## Python / FastAPI
+- All request/response models must use Pydantic v2 `BaseModel` with field validators.
+- Use `python-jose`/PyJWT for tokens, passlib bcrypt for hashing.
+- No bare `except:`. Catch specific exceptions and return clean API errors.
+- Use async SQLAlchemy sessions via dependency injection.
+- Type hints on all functions. Run `ruff` + `mypy`.
+
+## Security
+- No secrets in code. Use `.env` + Pydantic Settings.
+- Strict CORS: only extension origin(s) and local dev. No `*` in production.
+- MV3 CSP: no remote code, no eval, no inline scripts.
+- Sanitize all extracted page text before sending to backend/Ollama.
+- Store tokens only in `chrome.storage` (never localStorage).
+
+## Error Handling
+- Extension: graceful degradation when backend/Ollama is down — show health indicator, never crash.
+- Backend: global exception handler returns structured `{detail, error_code}` JSON.
+- Log errors server-side with request IDs.
+
+## Testing & Quality
+- Frontend: Vitest + React Testing Library.
+- Backend: pytest + httpx AsyncClient.
+- Lint before commit: eslint, prettier, ruff, mypy.
